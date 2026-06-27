@@ -171,8 +171,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_0_0_terms.html">Terms, Acknowledgments, and Licenses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">CH55x Unit SDK Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Docker Configuration for Non-Privileged Users on Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">UNIT CH55x SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Optional Docker and spkg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_0_0_started.html">AVR: Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_1_0_avr_firmware.html">AVR Firmware Overview</a></li>
@@ -512,22 +513,38 @@ please visit the project’s GitHub repository.</p>
 <li class="toctree-l2"><a class="reference internal" href="1_0_0_terms.html#licenses">Licenses</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">CH55x Unit SDK Docker</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#project-structure">Project Structure</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#main-features">Main Features</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">UNIT CH55x SDK</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#recommended-workflow">Recommended Workflow</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#features">Features</a></li>
 <li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#requirements">Requirements</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#installation">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#macos-status">macOS Status</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#version-compatibility">Version Compatibility</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#project-structure">Project Structure</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_0_sdk.html#license">License</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Docker Configuration for Non-Privileged Users on Linux</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#install-docker-engine">1. Install Docker Engine</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#verify-docker-operation">2. Verify Docker Operation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#configure-user-access-to-docker">3. Configure User Access to Docker</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#validate-non-privileged-docker-usage">4. Validate Non-Privileged Docker Usage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#verify-docker-compose-plugin-installation">5. Verify Docker-Compose Plugin Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#running-spkg-without-sudo">6. Running spkg Without sudo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#optional-verify-docker-socket-permissions">Optional: Verify Docker Socket Permissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#install-platformio">Install PlatformIO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#clone-the-sdk">Clone the SDK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#build-a-platformio-example">Build a PlatformIO Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#upload-firmware">Upload Firmware</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#platformio-configuration">PlatformIO Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#supported-boards">Supported Boards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_1_platformio.html#create-a-platformio-project">Create a PlatformIO Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Optional Docker and spkg</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#build-the-docker-image">Build the Docker Image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#compile-a-project">Compile a Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#run-make-targets">Run Make Targets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#create-a-new-project">Create a New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#output">Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#flash-tools">Flash Tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#configure-docker-without-sudo-on-linux">Configure Docker Without sudo on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="1_1_2_docker.html#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a><ul>

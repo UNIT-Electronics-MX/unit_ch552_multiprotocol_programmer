@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CH55x Unit SDK Docker &#8212; CH552 USB Multi-Protocol Programmer  User Guide and Technical Reference 0.0.1 documentation</title>
+    <title>UNIT CH55x SDK &#8212; CH552 USB Multi-Protocol Programmer  User Guide and Technical Reference 0.0.1 documentation</title>
   
   
   
@@ -49,14 +49,13 @@
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js?v=4a39c7ea"></script>
-    <script src="_static/tabs.js?v=3030b3cb"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '1_1_0_sdk';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Docker Configuration for Non-Privileged Users on Linux" href="1_1_2_docker.html" />
+    <link rel="next" title="PlatformIO Support for CH55x" href="1_1_1_platformio.html" />
     <link rel="prev" title="Terms, Acknowledgments, and Licenses" href="1_0_0_terms.html" />
     <link rel="icon" href="_static/icon.svg" type="image/x-icon">
     <link rel="shortcut icon" href="_static/icon.svg" type="image/x-icon">
@@ -171,8 +170,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_0_0_terms.html">Terms, Acknowledgments, and Licenses</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">CH55x Unit SDK Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Docker Configuration for Non-Privileged Users on Linux</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">UNIT CH55x SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Optional Docker and spkg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_0_0_started.html">AVR: Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_1_0_avr_firmware.html">AVR Firmware Overview</a></li>
@@ -390,7 +390,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>CH55x Unit SDK Docker</h1>
+    <h1>UNIT CH55x SDK</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -400,21 +400,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-workflow">Recommended Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-status">macOS Status</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-compatibility">Version Compatibility</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-structure">Project Structure</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-features">Main Features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-all-platforms">Common (All Platforms)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-docker-image">Building the Docker Image</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-project">Creating a New Project</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#showing-help">Showing Help</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-a-project">Compiling a Project</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-make-clean-all-hex-etc">Execute <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>, <code class="docutils literal notranslate"><span class="pre">hex</span></code>, etc.</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
 </ul>
             </nav>
         </div>
@@ -426,166 +418,83 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="ch55x-unit-sdk-docker">
-<h1>CH55x Unit SDK Docker<a class="headerlink" href="#ch55x-unit-sdk-docker" title="Link to this heading">#</a></h1>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Portable SDK for CH552 firmware development using SDCC in Docker containers. Includes a cross-platform command-line tool (<cite>spkg</cite>) to simplify compilation on both Linux and Windows.</p>
-</div>
-<section id="project-structure">
-<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">#</a></h2>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ch552-docker-sdk/
-├── spkg/                   # Standalone CLI build system
-│   ├── spkg                # CLI launcher (bash script)
-│   ├── Dockerfile          # SDCC-based build environment
-│   └── docker-compose.yml  # Container configuration
-├── template/               # CH552 example projects
-│   └── Blink/              # Blink example (main.c, src/, tools/, Makefile)
-└── README.md
-</pre></div>
-</div>
+  <section id="unit-ch55x-sdk">
+<h1>UNIT CH55x SDK<a class="headerlink" href="#unit-ch55x-sdk" title="Link to this heading">#</a></h1>
+<p>The UNIT CH55x SDK is the CH55x firmware development base used by this
+documentation. The recommended implementation workflow is PlatformIO.
+PlatformIO uses SDCC and integrates the default upload flow validated on Linux
+and Windows.</p>
+<p>Repository:
+<a class="reference external" href="https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk/">UNIT-Electronics-MX/unit_ch55x_sdk</a></p>
+<section id="recommended-workflow">
+<h2>Recommended Workflow<a class="headerlink" href="#recommended-workflow" title="Link to this heading">#</a></h2>
+<p>Use the dedicated <a class="reference internal" href="1_1_1_platformio.html"><span class="doc">PlatformIO Support for CH55x</span></a> chapter for installation, project
+configuration, build, upload, and supported boards.</p>
+<p>The container-based Makefile workflow is optional and low priority. It is
+documented only in <a class="reference internal" href="1_1_2_docker.html"><span class="doc">Optional Docker and spkg</span></a> for legacy examples or isolated builds.</p>
 </section>
-<section id="main-features">
-<h2>Main Features<a class="headerlink" href="#main-features" title="Link to this heading">#</a></h2>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h2>
 <ul class="simple">
-<li><p>Unified command-line tool: “spkg” available on Linux and Windows (using Git Bash).</p></li>
-<li><p>No manual installation of SDCC or other toolchains required.</p></li>
-<li><p>Uses Docker containers to provide a completely isolated build environment.</p></li>
-<li><p>Based on a project system with a Makefile, compatible with CH552/CH55x microcontrollers.</p></li>
-<li><p>Includes an example project located in the <code class="docutils literal notranslate"><span class="pre">template/</span></code> directory.</p></li>
+<li><p>PlatformIO platform support for CH55x projects on Linux and Windows.</p></li>
+<li><p>SDCC-based firmware builds for <code class="docutils literal notranslate"><span class="pre">firmware.ihx</span></code>, <code class="docutils literal notranslate"><span class="pre">firmware.hex</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">firmware.bin</span></code>.</p></li>
+<li><p>Default upload flow with <code class="docutils literal notranslate"><span class="pre">chprog.py</span></code> on Linux and <code class="docutils literal notranslate"><span class="pre">vnproch55x</span></code> on Windows.</p></li>
+<li><p>Board definitions for CH551, CH552, CH554, and CH559 targets.</p></li>
+<li><p>Optional container tooling for legacy Makefile projects.</p></li>
 </ul>
 </section>
 <section id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
-<section id="common-all-platforms">
-<h3>Common (All Platforms)<a class="headerlink" href="#common-all-platforms" title="Link to this heading">#</a></h3>
+<p>For the recommended PlatformIO workflow:</p>
 <ul class="simple">
-<li><p><a class="reference external" href="https://www.docker.com/products/docker-desktop">Docker Desktop</a></p></li>
+<li><p><a class="reference external" href="https://code.visualstudio.com/">Visual Studio Code</a> with the
+<a class="reference external" href="https://platformio.org/platformio-ide">PlatformIO IDE extension</a>.</p></li>
+<li><p>Git.</p></li>
+<li><p>Python 3 on Linux.</p></li>
+<li><p><a class="reference external" href="https://www.wch-ic.com/downloads/CH372DRV_EXE.html">WCH USB driver CH372DRV</a>
+on Windows for USB upload.</p></li>
 </ul>
-<div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Linux/macOS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><ul class="simple">
-<li><p>Git</p></li>
-<li><p>Python 3</p></li>
-<li><p>Bash shell</p></li>
-<li><p>Superuser privileges required to run Docker</p></li>
-</ul>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.docker.com/desktop/windows/install/">Docker Desktop for Windows</a></p></li>
-<li><p><a class="reference external" href="https://gitforwindows.org/">Git Bash</a></p></li>
-<li><p>Docker Desktop with WSL2 or Hyper-V backend enabled</p></li>
-<li><p>MinGW64 (included with Git Bash) for the <code class="docutils literal notranslate"><span class="pre">make</span></code> command</p></li>
-</ul>
-</div></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Running <code class="docutils literal notranslate"><span class="pre">spkg</span></code> on Linux might require <code class="docutils literal notranslate"><span class="pre">sudo</span></code> if the user is not part of the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group. You can add your user with:
-<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">usermod</span> <span class="pre">-aG</span> <span class="pre">docker</span> <span class="pre">$USER</span> <span class="pre">&amp;&amp;</span> <span class="pre">newgrp</span> <span class="pre">docker</span></code></p>
-</div>
+<p>PlatformIO Core can also be used for command-line automation, but the
+recommended installation path is the VS Code extension.</p>
 </section>
+<section id="macos-status">
+<h2>macOS Status<a class="headerlink" href="#macos-status" title="Link to this heading">#</a></h2>
+<p>macOS has not been tested in the current SDK validation process. Do not present
+macOS as a supported installation, build, or upload target until it has a
+verified test procedure.</p>
 </section>
-<section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
-<div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Linux/macOS</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><p>Clone the repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:UNIT-Electronics-MX/unit_ch55x_docker_sdk.git
-<span class="nb">cd</span><span class="w"> </span>ch552-docker-sdk/spkg
-chmod<span class="w"> </span>+x<span class="w"> </span>spkg
-</pre></div>
-</div>
-<p>(Optional) Install it globally:</p>
-</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><p>Clone the repository:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:UNIT-Electronics-MX/unit_ch55x_docker_sdk.git
-<span class="nb">cd</span><span class="w"> </span>ch552-docker-sdk
-</pre></div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Require use command ./spkg/spkg.bat to run the spkg command.</p>
-</div>
-</div></div>
-<section id="building-the-docker-image">
-<h3>Building the Docker Image<a class="headerlink" href="#building-the-docker-image" title="Link to this heading">#</a></h3>
-<div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">Linux/macOS</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><p>Build the Docker image:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>compose
-</pre></div>
-</div>
-</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>compose
-</pre></div>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Ensure Docker is running and that your user has permission to execute it.
-You can verify by running <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code>. If no errors appear, Docker is running correctly.</p>
-</div>
-</div></div>
-</section>
-<section id="creating-a-new-project">
-<h3>Creating a New Project<a class="headerlink" href="#creating-a-new-project" title="Link to this heading">#</a></h3>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This command will create a new directory with the specified name.</p>
-</div>
-<div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">Linux/macOS</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><p>To create a new project, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>init<span class="w"> </span>template/project
-</pre></div>
-</div>
-</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><p>To create a new project, run:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>init<span class="w"> </span>template/project
-</pre></div>
-</div>
-</div></div>
-</section>
-<section id="showing-help">
-<h3>Showing Help<a class="headerlink" href="#showing-help" title="Link to this heading">#</a></h3>
-<p>On Linux:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>--help
-</pre></div>
-</div>
-<p>On Windows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>--help
+<section id="version-compatibility">
+<h2>Version Compatibility<a class="headerlink" href="#version-compatibility" title="Link to this heading">#</a></h2>
+<p>Use SDK <code class="docutils literal notranslate"><span class="pre">v0.1.4</span></code> or newer for the current PlatformIO upload flow. This
+version avoids treating the Windows-only Arduino tools archive as a PlatformIO
+package on Linux and keeps the default <code class="docutils literal notranslate"><span class="pre">chprog.py</span></code> uploader path clean.</p>
+<p>Projects can pin a released SDK version in <code class="docutils literal notranslate"><span class="pre">platformio.ini</span></code>:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[env:unit_ch552]</span>
+<span class="na">platform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk.git</span><span class="c1">#v0.1.4</span>
+<span class="na">board</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">unit_ch552</span>
 </pre></div>
 </div>
 </section>
-<section id="compiling-a-project">
-<h3>Compiling a Project<a class="headerlink" href="#compiling-a-project" title="Link to this heading">#</a></h3>
-<p>On Linux:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>-p<span class="w"> </span>./template/Blink
-</pre></div>
-</div>
-<p>On Windows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./template/Blink
-</pre></div>
-</div>
-</section>
-<section id="execute-make-clean-all-hex-etc">
-<h3>Execute <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>, <code class="docutils literal notranslate"><span class="pre">hex</span></code>, etc.<a class="headerlink" href="#execute-make-clean-all-hex-etc" title="Link to this heading">#</a></h3>
-<p>On Linux:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span class="w"> </span>clean
-spkg<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span class="w"> </span>all
-spkg<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span class="w"> </span>hex
-</pre></div>
-</div>
-<p>On Windows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg.bat<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span class="w"> </span>clean
-spkg.bat<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span class="w"> </span>all
-spkg.bat<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span class="w"> </span>hex
+<section id="project-structure">
+<h2>Project Structure<a class="headerlink" href="#project-structure" title="Link to this heading">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>unit_ch55x_sdk/
+|-- boards/                 # PlatformIO board definitions
+|-- builder/                # PlatformIO build scripts
+|-- examples/               # CH55x example projects
+|-- platform.json           # PlatformIO platform metadata
+`-- README.md
 </pre></div>
 </div>
 </section>
-</section>
-<section id="output">
-<h2>Output<a class="headerlink" href="#output" title="Link to this heading">#</a></h2>
-<p>The compiled binary will be generated at:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>template/Blink/build/main.bin
-</pre></div>
-</div>
-<p>You can flash it using:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">tools/chprog.py</span></code></p></li>
-<li><p><a class="reference external" href="https://www.wch-ic.com/downloads/WCHISPTool_Setup_exe.html">WCHISPTool</a></p></li>
-</ul>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Link to this heading">#</a></h2>
+<p>This SDK is released under the
+<a class="reference external" href="https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk/blob/main/LICENSE">MIT License</a>.</p>
+<p>Some example projects inside <code class="docutils literal notranslate"><span class="pre">examples/</span></code> are derived from the work of Stefan
+Wagner and are licensed under Creative Commons Attribution-ShareAlike 3.0
+Unported (CC BY-SA 3.0). Each source file includes its origin and license
+header where applicable.</p>
 </section>
 </section>
 
@@ -610,11 +519,11 @@ spkg.bat<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span 
       </div>
     </a>
     <a class="right-next"
-       href="1_1_2_docker.html"
+       href="1_1_1_platformio.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Docker Configuration for Non-Privileged Users on Linux</p>
+        <p class="prev-next-title">PlatformIO Support for CH55x</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -634,21 +543,13 @@ spkg.bat<span class="w"> </span>-p<span class="w"> </span>./template/Blink<span 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recommended-workflow">Recommended Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#macos-status">macOS Status</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-compatibility">Version Compatibility</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-structure">Project Structure</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-features">Main Features</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-all-platforms">Common (All Platforms)</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building-the-docker-image">Building the Docker Image</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-new-project">Creating a New Project</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#showing-help">Showing Help</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#compiling-a-project">Compiling a Project</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#execute-make-clean-all-hex-etc">Execute <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">clean</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>, <code class="docutils literal notranslate"><span class="pre">hex</span></code>, etc.</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#license">License</a></li>
 </ul>
   </nav></div>
 

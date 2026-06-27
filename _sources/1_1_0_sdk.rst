@@ -1,208 +1,89 @@
-CH55x Unit SDK Docker
-=====================
+UNIT CH55x SDK
+==============
 
-.. note::
-    Portable SDK for CH552 firmware development using SDCC in Docker containers. Includes a cross-platform command-line tool (`spkg`) to simplify compilation on both Linux and Windows.
+The UNIT CH55x SDK is the CH55x firmware development base used by this
+documentation. The recommended implementation workflow is PlatformIO.
+PlatformIO uses SDCC and integrates the default upload flow validated on Linux
+and Windows.
 
+Repository:
+`UNIT-Electronics-MX/unit_ch55x_sdk <https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk/>`_
 
-Project Structure
------------------
+Recommended Workflow
+--------------------
 
-.. code-block:: none
+Use the dedicated :doc:`1_1_1_platformio` chapter for installation, project
+configuration, build, upload, and supported boards.
 
-    ch552-docker-sdk/
-    ├── spkg/                   # Standalone CLI build system
-    │   ├── spkg                # CLI launcher (bash script)
-    │   ├── Dockerfile          # SDCC-based build environment
-    │   └── docker-compose.yml  # Container configuration
-    ├── template/               # CH552 example projects
-    │   └── Blink/              # Blink example (main.c, src/, tools/, Makefile)
-    └── README.md
+The container-based Makefile workflow is optional and low priority. It is
+documented only in :doc:`1_1_2_docker` for legacy examples or isolated builds.
 
+Features
+--------
 
-Main Features
--------------
-
-- Unified command-line tool: "spkg" available on Linux and Windows (using Git Bash).
-- No manual installation of SDCC or other toolchains required.
-- Uses Docker containers to provide a completely isolated build environment.
-- Based on a project system with a Makefile, compatible with CH552/CH55x microcontrollers.
-- Includes an example project located in the ``template/`` directory.
+- PlatformIO platform support for CH55x projects on Linux and Windows.
+- SDCC-based firmware builds for ``firmware.ihx``, ``firmware.hex``, and
+  ``firmware.bin``.
+- Default upload flow with ``chprog.py`` on Linux and ``vnproch55x`` on Windows.
+- Board definitions for CH551, CH552, CH554, and CH559 targets.
+- Optional container tooling for legacy Makefile projects.
 
 Requirements
 ------------
 
-Common (All Platforms)
-~~~~~~~~~~~~~~~~~~~~~~~~
+For the recommended PlatformIO workflow:
 
-- `Docker Desktop <https://www.docker.com/products/docker-desktop>`_
+- `Visual Studio Code <https://code.visualstudio.com/>`_ with the
+  `PlatformIO IDE extension <https://platformio.org/platformio-ide>`_.
+- Git.
+- Python 3 on Linux.
+- `WCH USB driver CH372DRV <https://www.wch-ic.com/downloads/CH372DRV_EXE.html>`_
+  on Windows for USB upload.
 
+PlatformIO Core can also be used for command-line automation, but the
+recommended installation path is the VS Code extension.
 
-.. tabs::
-
-    .. tab:: Linux/macOS
-
-        - Git
-        - Python 3
-        - Bash shell
-        - Superuser privileges required to run Docker
-
-    .. tab:: Windows
-
-        - `Docker Desktop for Windows <https://docs.docker.com/desktop/windows/install/>`_
-        - `Git Bash <https://gitforwindows.org/>`_
-        - Docker Desktop with WSL2 or Hyper-V backend enabled
-        - MinGW64 (included with Git Bash) for the ``make`` command
-
-.. note::
-    Running ``spkg`` on Linux might require ``sudo`` if the user is not part of the ``docker`` group. You can add your user with:  
-    ``sudo usermod -aG docker $USER && newgrp docker``
-
-Installation
+macOS Status
 ------------
-.. tabs::
 
-    .. tab:: Linux/macOS
+macOS has not been tested in the current SDK validation process. Do not present
+macOS as a supported installation, build, or upload target until it has a
+verified test procedure.
 
-        Clone the repository:
+Version Compatibility
+---------------------
 
-        .. code-block:: bash
+Use SDK ``v0.1.4`` or newer for the current PlatformIO upload flow. This
+version avoids treating the Windows-only Arduino tools archive as a PlatformIO
+package on Linux and keeps the default ``chprog.py`` uploader path clean.
 
-            git clone git@github.com:UNIT-Electronics-MX/unit_ch55x_docker_sdk.git
-            cd ch552-docker-sdk/spkg
-            chmod +x spkg
+Projects can pin a released SDK version in ``platformio.ini``:
 
-        (Optional) Install it globally:
+.. code-block:: ini
 
+   [env:unit_ch552]
+   platform = https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk.git#v0.1.4
+   board = unit_ch552
 
+Project Structure
+-----------------
 
-    .. tab:: Windows
+.. code-block:: text
 
-        Clone the repository:
+   unit_ch55x_sdk/
+   |-- boards/                 # PlatformIO board definitions
+   |-- builder/                # PlatformIO build scripts
+   |-- examples/               # CH55x example projects
+   |-- platform.json           # PlatformIO platform metadata
+   `-- README.md
 
-        .. code-block:: bash
+License
+-------
 
-            git clone git@github.com:UNIT-Electronics-MX/unit_ch55x_docker_sdk.git
-            cd ch552-docker-sdk
+This SDK is released under the
+`MIT License <https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk/blob/main/LICENSE>`_.
 
-        .. note::
-            
-            Require use command ./spkg/spkg.bat to run the spkg command.
-
-
-Building the Docker Image
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-.. tabs::
-
-    .. tab:: Linux/macOS
-
-        Build the Docker image:
-
-        .. code-block:: bash
-
-            spkg compose
-
-    .. tab:: Windows
-
-        .. code-block:: bash
-
-            ./spkg/spkg.bat compose
-
-        .. warning::
-            Ensure Docker is running and that your user has permission to execute it.
-            You can verify by running ``docker ps``. If no errors appear, Docker is running correctly.
-
-
-Creating a New Project
-~~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-    This command will create a new directory with the specified name.
-
-.. tabs::
-
-    .. tab:: Linux/macOS
-
-        To create a new project, run:
-
-        .. code-block:: bash
-
-            spkg init template/project
-
-    .. tab:: Windows
-
-        To create a new project, run:
-
-        .. code-block:: bash
-
-            ./spkg/spkg.bat init template/project
-
-
-
-
-Showing Help
-~~~~~~~~~~~~
-
-On Linux:
-
-.. code-block:: bash
-
-    spkg --help
-
-On Windows:
-
-.. code-block:: bash
-
-    ./spkg/spkg.bat --help
-
-
-Compiling a Project
-~~~~~~~~~~~~~~~~~~~~
-
-On Linux:
-
-.. code-block:: bash
-
-    spkg -p ./template/Blink
-
-On Windows:
-
-.. code-block:: bash
-
-    ./spkg/spkg.bat -p ./template/Blink
-
-
-Execute ``make clean``, ``all``, ``hex``, etc.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-On Linux:
-
-.. code-block:: bash
-
-    spkg -p ./template/Blink clean
-    spkg -p ./template/Blink all
-    spkg -p ./template/Blink hex
-
-On Windows:
-
-.. code-block:: bash
-
-    spkg.bat -p ./template/Blink clean
-    spkg.bat -p ./template/Blink all
-    spkg.bat -p ./template/Blink hex
-
-Output
-------
-
-The compiled binary will be generated at:
-
-.. code-block:: none
-
-    template/Blink/build/main.bin
-
-You can flash it using:
-
-- ``tools/chprog.py``
-- `WCHISPTool <https://www.wch-ic.com/downloads/WCHISPTool_Setup_exe.html>`_
+Some example projects inside ``examples/`` are derived from the work of Stefan
+Wagner and are licensed under Creative Commons Attribution-ShareAlike 3.0
+Unported (CC BY-SA 3.0). Each source file includes its origin and license
+header where applicable.

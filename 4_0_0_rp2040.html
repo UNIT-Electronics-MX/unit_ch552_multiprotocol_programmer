@@ -170,8 +170,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_0_0_terms.html">Terms, Acknowledgments, and Licenses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">CH55x Unit SDK Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Docker Configuration for Non-Privileged Users on Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">UNIT CH55x SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Optional Docker and spkg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_0_0_started.html">AVR: Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_1_0_avr_firmware.html">AVR Firmware Overview</a></li>
@@ -422,7 +423,9 @@ document.write(`
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
-<p>A Linux operating system is recommended, as the Pico-SDK is primarily developed and tested on Linux. However, it can also be configured for Windows and macOS with additional steps.</p>
+<p>A Linux operating system is recommended, as the Pico-SDK is primarily
+developed and tested on Linux. Windows may require additional setup. macOS
+has not been tested in this documentation process.</p>
 </div>
 <p>This guide provides a comprehensive introduction to working with RP2040 microcontrollers. It covers setting up the development environment, installing the required software, and writing code for RP2040-based projects.</p>
 <section id="multi-protocol-programmer-for-rp2040">
@@ -438,7 +441,7 @@ document.write(`
 <figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="_images/swdio.png"><img alt="_images/swdio.png" src="_images/swdio.png" style="width: 100%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6 </span><span class="caption-text">SWD Pinout</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 8 </span><span class="caption-text">SWD Pinout</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
@@ -457,7 +460,7 @@ document.write(`
 <figure class="align-center" id="id3">
 <a class="reference internal image-reference" href="_images/dualmcu.png"><img alt="_images/dualmcu.png" src="_images/dualmcu.png" style="width: 100%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 8 </span><span class="caption-text">DualMCU RP2040 Connection</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 10 </span><span class="caption-text">DualMCU RP2040 Connection</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </section>
