@@ -5,32 +5,16 @@ Firmware update
 ~~~~~~~~~~~~~~~
 
 .. note ::
-    The contents of this chapter are hosted in the unit_ch55x_docker_sdk.git repository. 
-    Always remember to keep Docker Desktop open in your computer; otherwise, the commands will not work properly.
+    The recommended implementation workflow is PlatformIO. Use
+    :doc:`1_1_1_platformio` for installation, build, and upload guidance.
+    Legacy Makefile/container builds are documented only in
+    :doc:`1_1_2_docker`.
 
 
-To start using your **Multi-Protocol Programmer** as a PICO DAP, follow these steps:
-
-.. code-block:: bash
-
-   cd unit_ch55x_docker_sdk
-
-Once you are at the main directory, open a terminal and enter the commands:
-
-Linux
-------
-
-.. code-block:: bash
-
-   ./spkg/spkg -p ./examples/USB/Prog/PICO-DAP
-
-Windows
---------
-.. code-block:: bash
-
-   ./spkg/spkg.bat -p ./examples/USB/Prog/PICO-DAP
-
-The command creates a .bin file inside the **build** folder.
+To start using your **Multi-Protocol Programmer** as a PICO DAP, build the
+firmware with the SDK workflow that matches your project. PlatformIO is
+recommended for new projects. Legacy Makefile examples create a ``.bin`` file
+inside the **build** folder.
 
 WCHIspStudio
 -------------

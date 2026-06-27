@@ -25,34 +25,16 @@ Firmware Update Procedure
 
 .. note::
 
-    The following procedure assumes that the `unit_ch55x_docker_sdk` repository is already cloned on your system.
-    Ensure that **Docker Desktop** is running before executing the build commands, as they rely on Docker containers for compilation.
+    The recommended implementation workflow is PlatformIO. Use
+    :doc:`1_1_1_platformio` for installation, build, and upload guidance.
+    Legacy Makefile/container builds are documented only in
+    :doc:`1_1_2_docker`.
 
 
-To commence the utilization of the **Multi-Protocol Programmer** in PICO ASP mode, execute the following procedures:
-
-1. Navigate to the SDK Root Directory
-
-
-.. code-block:: bash
-
-    cd unit_ch55x_docker_sdk
-
-2. Compile the Firmware
-
-On Linux 
-
-.. code-block:: bash
-
-    ./spkg/spkg -p ./examples/usb/prog/avr
-
-On Windows:
-
-.. code-block:: bash
-
-    ./spkg/spkg.bat -p ./examples/usb/prog/avr
-
-The execution of this command will generate a .bin file within the **build** directory.
+To use the **Multi-Protocol Programmer** in PICO ASP mode, build the firmware
+with the SDK workflow that matches your project. PlatformIO is recommended for
+new projects. Legacy Makefile examples generate a ``.bin`` file inside the
+project **build** directory.
 
 WCHIspStudio Interface
 ----------------------

@@ -170,8 +170,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_0_0_terms.html">Terms, Acknowledgments, and Licenses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">CH55x Unit SDK Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Docker Configuration for Non-Privileged Users on Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">UNIT CH55x SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Optional Docker and spkg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_0_0_started.html">AVR: Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_1_0_avr_firmware.html">AVR Firmware Overview</a></li>
@@ -400,8 +401,6 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#firmware-update">Firmware update</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wchispstudio">WCHIspStudio</a></li>
 </ul>
 </li>
@@ -429,27 +428,15 @@ document.write(`
 <h2>Firmware update<a class="headerlink" href="#firmware-update" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The contents of this chapter are hosted in the unit_ch55x_docker_sdk.git repository.
-Always remember to keep Docker Desktop open in your computer; otherwise, the commands will not work properly.</p>
+<p>The recommended implementation workflow is PlatformIO. Use
+<a class="reference internal" href="1_1_1_platformio.html"><span class="doc">PlatformIO Support for CH55x</span></a> for installation, build, and upload guidance.
+Legacy Makefile/container builds are documented only in
+<a class="reference internal" href="1_1_2_docker.html"><span class="doc">Optional Docker and spkg</span></a>.</p>
 </div>
-<p>To start using your <strong>Multi-Protocol Programmer</strong> as a PICO DAP, follow these steps:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>unit_ch55x_docker_sdk
-</pre></div>
-</div>
-<p>Once you are at the main directory, open a terminal and enter the commands:</p>
-<section id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./examples/USB/Prog/PICO-DAP
-</pre></div>
-</div>
-</section>
-<section id="windows">
-<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./examples/USB/Prog/PICO-DAP
-</pre></div>
-</div>
-<p>The command creates a .bin file inside the <strong>build</strong> folder.</p>
-</section>
+<p>To start using your <strong>Multi-Protocol Programmer</strong> as a PICO DAP, build the
+firmware with the SDK workflow that matches your project. PlatformIO is
+recommended for new projects. Legacy Makefile examples create a <code class="docutils literal notranslate"><span class="pre">.bin</span></code> file
+inside the <strong>build</strong> folder.</p>
 <section id="wchispstudio">
 <h3>WCHIspStudio<a class="headerlink" href="#wchispstudio" title="Link to this heading">#</a></h3>
 <p>Then open <strong>WCHIspStudio</strong> to upload the firmware</p>
@@ -653,8 +640,6 @@ Always remember to keep Docker Desktop open in your computer; otherwise, the com
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#firmware-update">Firmware update</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#wchispstudio">WCHIspStudio</a></li>
 </ul>
 </li>

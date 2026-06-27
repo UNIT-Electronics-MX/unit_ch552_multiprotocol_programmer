@@ -170,8 +170,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_0_0_terms.html">Terms, Acknowledgments, and Licenses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">CH55x Unit SDK Docker</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Docker Configuration for Non-Privileged Users on Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">UNIT CH55x SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_2_docker.html">Optional Docker and spkg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_0_0_started.html">AVR: Getting Started</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">AVR Firmware Overview</a></li>
@@ -434,28 +435,15 @@ document.write(`
 <h2>Firmware Update Procedure<a class="headerlink" href="#firmware-update-procedure" title="Link to this heading">#</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The following procedure assumes that the <cite>unit_ch55x_docker_sdk</cite> repository is already cloned on your system.
-Ensure that <strong>Docker Desktop</strong> is running before executing the build commands, as they rely on Docker containers for compilation.</p>
+<p>The recommended implementation workflow is PlatformIO. Use
+<a class="reference internal" href="1_1_1_platformio.html"><span class="doc">PlatformIO Support for CH55x</span></a> for installation, build, and upload guidance.
+Legacy Makefile/container builds are documented only in
+<a class="reference internal" href="1_1_2_docker.html"><span class="doc">Optional Docker and spkg</span></a>.</p>
 </div>
-<p>To commence the utilization of the <strong>Multi-Protocol Programmer</strong> in PICO ASP mode, execute the following procedures:</p>
-<ol class="arabic simple">
-<li><p>Navigate to the SDK Root Directory</p></li>
-</ol>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>unit_ch55x_docker_sdk
-</pre></div>
-</div>
-<ol class="arabic simple" start="2">
-<li><p>Compile the Firmware</p></li>
-</ol>
-<p>On Linux</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./examples/usb/prog/avr
-</pre></div>
-</div>
-<p>On Windows:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./examples/usb/prog/avr
-</pre></div>
-</div>
-<p>The execution of this command will generate a .bin file within the <strong>build</strong> directory.</p>
+<p>To use the <strong>Multi-Protocol Programmer</strong> in PICO ASP mode, build the firmware
+with the SDK workflow that matches your project. PlatformIO is recommended for
+new projects. Legacy Makefile examples generate a <code class="docutils literal notranslate"><span class="pre">.bin</span></code> file inside the
+project <strong>build</strong> directory.</p>
 <section id="wchispstudio-interface">
 <h3>WCHIspStudio Interface<a class="headerlink" href="#wchispstudio-interface" title="Link to this heading">#</a></h3>
 <p>Launch <strong>WCHIspStudio</strong> to upload the firmware.</p>

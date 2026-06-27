@@ -9,7 +9,9 @@ The RP2040 is an efficient and cost-effective microcontroller developed by Raspb
 
 .. tip::
 
-    A Linux operating system is recommended, as the Pico-SDK is primarily developed and tested on Linux. However, it can also be configured for Windows and macOS with additional steps.
+    A Linux operating system is recommended, as the Pico-SDK is primarily
+    developed and tested on Linux. Windows may require additional setup. macOS
+    has not been tested in this documentation process.
 
 This guide provides a comprehensive introduction to working with RP2040 microcontrollers. It covers setting up the development environment, installing the required software, and writing code for RP2040-based projects.
 

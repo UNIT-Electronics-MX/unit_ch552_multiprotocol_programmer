@@ -1,143 +1,304 @@
-Docker Configuration for Non-Privileged Users on Linux
-=======================================================
+Optional Docker and spkg
+========================
 
-This document details the procedure for configuring Docker so that containers, including the spkg container, may be built and executed without requiring superuser privileges.
+The UNIT CH55x SDK includes optional Docker-based tooling through ``spkg`` for
+Makefile-based examples. Use PlatformIO first for new projects; Docker is kept
+as a secondary workflow for isolated builds and legacy examples.
 
+Use this page only when a project specifically needs the Docker/``spkg``
+workflow.
 
+.. note::
 
-1. Install Docker Engine
-------------------------
+   This is the only chapter that documents ``spkg`` usage. For new project
+   implementation, use :doc:`1_1_1_platformio`.
 
-There are two installation approaches. Select Option A for a simpler installation using the docker.io package, or Option B for the most current official release.
+Requirements
+------------
 
+Common Requirements
+~~~~~~~~~~~~~~~~~~~
 
+- `Docker Desktop <https://www.docker.com/products/docker-desktop>`_ or Docker Engine.
+- Git.
+- Bash shell.
 
-.. tabs:: 
+Linux
+~~~~~
 
-  .. tab::  1.1 Option A – Using the docker.io Package
+- Python 3.
+- Permission to run Docker.
+- Superuser privileges may be required during Docker installation or when the
+  current user is not part of the ``docker`` group.
 
-    Update the package index and install docker.io:
+Windows
+~~~~~~~
 
-    .. code-block:: bash
+- `Docker Desktop for Windows <https://docs.docker.com/desktop/windows/install/>`_.
+- `Git Bash <https://gitforwindows.org/>`_.
+- Docker Desktop with WSL2 or Hyper-V backend enabled.
+- MinGW64, included with Git Bash, for the ``make`` command.
 
-      sudo apt update
-      sudo apt install -y docker.io
+Installation
+------------
 
-  .. tab::  1.2 Option B – Installing the Latest Official Version
-
-    The following steps remove any old installations and install the latest Docker components.
-
-    .. code-block:: bash
-
-      sudo apt remove docker docker-engine docker.io containerd runc
-
-      sudo apt update
-      sudo apt install -y \
-        ca-certificates \
-        curl \
-        gnupg
-
-      sudo install -m 0755 -d /etc/apt/keyrings
-
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
-        sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-
-      echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
-      https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | \
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-      sudo apt update
-      sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-2. Verify Docker Operation
----------------------------
-
-Ensure the Docker daemon is active and verify the installation:
+Clone the SDK repository:
 
 .. code-block:: bash
 
-  sudo systemctl start docker
-  sudo systemctl enable docker
-  docker version
+   git clone https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk.git
+   cd unit_ch55x_sdk
 
-3. Configure User Access to Docker
-------------------------------------
-
-Add your user account to the docker group to allow Docker execution without root privileges:
+On Linux, make the launcher executable:
 
 .. code-block:: bash
 
-  sudo usermod -aG docker $USER
+   chmod +x spkg/spkg
 
-After executing this command, re-authenticate by logging out and back in or by running:
-
-.. code-block:: bash
-
-  newgrp docker
-
-4. Validate Non-Privileged Docker Usage
----------------------------------------
-
-Confirm that Docker commands work without using sudo:
+Optional global installation on Linux:
 
 .. code-block:: bash
 
-  docker ps
+   cd spkg
+   sudo ln -s "$(pwd)/spkg" /usr/local/bin/spkg
 
-The command should return either an empty list or the column headers.
-
-5. Verify Docker-Compose Plugin Installation
-----------------------------------------------
-
-Check the installation of docker-compose, whether using the legacy version or the modern plugin:
+On Windows, run the launcher from Git Bash:
 
 .. code-block:: bash
 
-  docker-compose version     # For the classic (v1) version
-  # or
-  docker compose version     # For the modern (v2) plugin
+   ./spkg/spkg.bat --help
 
-If docker-compose is not available, install the required package:
+Build the Docker Image
+----------------------
 
-.. code-block:: bash
+Start Docker Desktop or the Docker daemon before running the SDK commands.
 
-  sudo apt install docker-compose
+.. tabs::
 
-Or for the modern plugin:
+   .. tab:: Linux
 
-.. code-block:: bash
+      .. code-block:: bash
 
-  sudo apt install docker-compose-plugin
+         ./spkg/spkg compose
 
-6. Running spkg Without sudo
------------------------------
+      If ``spkg`` was installed globally:
 
-Once the configuration is complete, you may build images and compile projects with the spkg tool without requiring sudo privileges.
+      .. code-block:: bash
 
-.. code-block:: bash
+         spkg compose
 
-  ./spkg/spkg compose        # To build the Docker image
-  ./spkg/spkg -p ./my_project bin    # To compile your project
+   .. tab:: Windows
 
-Optional: Verify Docker Socket Permissions
---------------------------------------------
+      .. code-block:: bash
 
-Ensure that the Docker socket is correctly configured with the proper group ownership and permissions:
+         ./spkg/spkg.bat compose
 
-.. code-block:: bash
+      Verify that Docker is running with:
 
-  ls -l /var/run/docker.sock
+      .. code-block:: bash
 
-The expected output should resemble:
+         docker ps
+
+Compile a Project
+-----------------
+
+.. tabs::
+
+   .. tab:: Linux
+
+      .. code-block:: bash
+
+         ./spkg/spkg -p ./examples/Blink
+
+      With global installation:
+
+      .. code-block:: bash
+
+         spkg -p ./examples/Blink
+
+   .. tab:: Windows
+
+      .. code-block:: bash
+
+         ./spkg/spkg.bat -p ./examples/Blink
+
+Run Make Targets
+----------------
+
+The command after the project path is forwarded to ``make`` inside the
+container. Common targets are ``clean``, ``all``, and ``hex``.
+
+.. tabs::
+
+   .. tab:: Linux
+
+      .. code-block:: bash
+
+         ./spkg/spkg -p ./examples/Blink clean
+         ./spkg/spkg -p ./examples/Blink all
+         ./spkg/spkg -p ./examples/Blink hex
+
+   .. tab:: Windows
+
+      .. code-block:: bash
+
+         ./spkg/spkg.bat -p ./examples/Blink clean
+         ./spkg/spkg.bat -p ./examples/Blink all
+         ./spkg/spkg.bat -p ./examples/Blink hex
+
+Create a New Project
+--------------------
+
+The ``init`` command creates a new project directory.
+
+.. tabs::
+
+   .. tab:: Linux
+
+      .. code-block:: bash
+
+         ./spkg/spkg init examples/project
+
+   .. tab:: Windows
+
+      .. code-block:: bash
+
+         ./spkg/spkg.bat init examples/project
+
+Output
+------
+
+For Makefile-based projects, the compiled binary is generated at:
 
 .. code-block:: text
 
-  srw-rw---- 1 root docker ...
+   examples/Blink/build/main.bin
 
-If the permissions are not as specified, adjust them with:
+Other generated files, such as HEX output, are written under the same project
+``build/`` directory according to the project Makefile.
+
+Flash Tools
+-----------
+
+Generated firmware can be flashed with one of the supported CH55x tools:
+
+- ``tools/chprog.py``.
+- `wchusbdfu <https://github.com/DeqingSun/ch554tools>`_.
+- `WCHISPTool <https://www.wch-ic.com/downloads/WCHISPTool_Setup_exe.html>`_.
+
+Configure Docker Without sudo on Linux
+--------------------------------------
+
+Docker commands may require ``sudo`` until the current user is added to the
+``docker`` group.
+
+Install Docker Engine
+~~~~~~~~~~~~~~~~~~~~~
+
+Select one installation method.
+
+.. tabs::
+
+   .. tab:: docker.io package
+
+      .. code-block:: bash
+
+         sudo apt update
+         sudo apt install -y docker.io
+
+   .. tab:: Official Docker packages
+
+      .. code-block:: bash
+
+         sudo apt remove docker docker-engine docker.io containerd runc
+         sudo apt update
+         sudo apt install -y ca-certificates curl gnupg
+         sudo install -m 0755 -d /etc/apt/keyrings
+         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+         echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+         sudo apt update
+         sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+Verify Docker Operation
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-  sudo chown root:docker /var/run/docker.sock
-  sudo chmod 660 /var/run/docker.sock
+   sudo systemctl start docker
+   sudo systemctl enable docker
+   docker version
+
+Add the User to the docker Group
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   sudo usermod -aG docker $USER
+   newgrp docker
+
+Log out and back in if the group change is not applied in the current shell.
+
+Validate Non-Privileged Docker Usage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run Docker without ``sudo``:
+
+.. code-block:: bash
+
+   docker ps
+
+The command should return either an empty container list or the column headers.
+
+Verify Docker Compose
+~~~~~~~~~~~~~~~~~~~~~
+
+Check the modern Docker Compose plugin first:
+
+.. code-block:: bash
+
+   docker compose version
+
+Some systems also provide the classic command:
+
+.. code-block:: bash
+
+   docker-compose version
+
+If Docker Compose is missing, install the package for your distribution. On
+Ubuntu-based systems:
+
+.. code-block:: bash
+
+   sudo apt install docker-compose-plugin
+
+Optional Socket Permission Check
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Inspect the Docker socket:
+
+.. code-block:: bash
+
+   ls -l /var/run/docker.sock
+
+Expected group ownership:
+
+.. code-block:: text
+
+   srw-rw---- 1 root docker ...
+
+If the group or permissions are wrong:
+
+.. code-block:: bash
+
+   sudo chown root:docker /var/run/docker.sock
+   sudo chmod 660 /var/run/docker.sock
+
+Troubleshooting
+---------------
+
+- If ``spkg compose`` fails, confirm Docker is running with ``docker ps``.
+- If Linux requires ``sudo`` for every Docker command, re-check the ``docker``
+  group membership and start a new login session.
+- If Windows cannot run ``spkg``, use Git Bash and call ``./spkg/spkg.bat``.
+- If a build cannot find a Makefile target, verify that the path passed with
+  ``-p`` points to the project directory that contains the Makefile.

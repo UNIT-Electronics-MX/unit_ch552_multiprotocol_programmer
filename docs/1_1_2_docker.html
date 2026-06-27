@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Docker Configuration for Non-Privileged Users on Linux &#8212; CH552 USB Multi-Protocol Programmer  User Guide and Technical Reference 0.0.1 documentation</title>
+    <title>Optional Docker and spkg &#8212; CH552 USB Multi-Protocol Programmer  User Guide and Technical Reference 0.0.1 documentation</title>
   
   
   
@@ -57,7 +57,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="General Information" href="1_2_0_about.html" />
-    <link rel="prev" title="CH55x Unit SDK Docker" href="1_1_0_sdk.html" />
+    <link rel="prev" title="PlatformIO Support for CH55x" href="1_1_1_platformio.html" />
     <link rel="icon" href="_static/icon.svg" type="image/x-icon">
     <link rel="shortcut icon" href="_static/icon.svg" type="image/x-icon">
 
@@ -171,8 +171,9 @@
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="1_0_0_terms.html">Terms, Acknowledgments, and Licenses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">CH55x Unit SDK Docker</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Docker Configuration for Non-Privileged Users on Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_0_sdk.html">UNIT CH55x SDK</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1_1_1_platformio.html">PlatformIO Support for CH55x</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Optional Docker and spkg</a></li>
 <li class="toctree-l1"><a class="reference internal" href="1_2_0_about.html">General Information</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_0_0_started.html">AVR: Getting Started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2_1_0_avr_firmware.html">AVR Firmware Overview</a></li>
@@ -390,7 +391,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Docker Configuration for Non-Privileged Users on Linux</h1>
+    <h1>Optional Docker and spkg</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -400,13 +401,29 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-docker-engine">1. Install Docker Engine</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-operation">2. Verify Docker Operation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-user-access-to-docker">3. Configure User Access to Docker</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-non-privileged-docker-usage">4. Validate Non-Privileged Docker Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-compose-plugin-installation">5. Verify Docker-Compose Plugin Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-spkg-without-sudo">6. Running spkg Without sudo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-verify-docker-socket-permissions">Optional: Verify Docker Socket Permissions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-requirements">Common Requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-docker-image">Build the Docker Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-a-project">Compile a Project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-make-targets">Run Make Targets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-project">Create a New Project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flash-tools">Flash Tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-docker-without-sudo-on-linux">Configure Docker Without sudo on Linux</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-docker-engine">Install Docker Engine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-operation">Verify Docker Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-user-to-the-docker-group">Add the User to the docker Group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-non-privileged-docker-usage">Validate Non-Privileged Docker Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-compose">Verify Docker Compose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-socket-permission-check">Optional Socket Permission Check</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
             </nav>
         </div>
@@ -418,37 +435,168 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="docker-configuration-for-non-privileged-users-on-linux">
-<h1>Docker Configuration for Non-Privileged Users on Linux<a class="headerlink" href="#docker-configuration-for-non-privileged-users-on-linux" title="Link to this heading">#</a></h1>
-<p>This document details the procedure for configuring Docker so that containers, including the spkg container, may be built and executed without requiring superuser privileges.</p>
-<section id="install-docker-engine">
-<h2>1. Install Docker Engine<a class="headerlink" href="#install-docker-engine" title="Link to this heading">#</a></h2>
-<p>There are two installation approaches. Select Option A for a simpler installation using the docker.io package, or Option B for the most current official release.</p>
+  <section id="optional-docker-and-spkg">
+<h1>Optional Docker and spkg<a class="headerlink" href="#optional-docker-and-spkg" title="Link to this heading">#</a></h1>
+<p>The UNIT CH55x SDK includes optional Docker-based tooling through <code class="docutils literal notranslate"><span class="pre">spkg</span></code> for
+Makefile-based examples. Use PlatformIO first for new projects; Docker is kept
+as a secondary workflow for isolated builds and legacy examples.</p>
+<p>Use this page only when a project specifically needs the Docker/<code class="docutils literal notranslate"><span class="pre">spkg</span></code>
+workflow.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the only chapter that documents <code class="docutils literal notranslate"><span class="pre">spkg</span></code> usage. For new project
+implementation, use <a class="reference internal" href="1_1_1_platformio.html"><span class="doc">PlatformIO Support for CH55x</span></a>.</p>
+</div>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
+<section id="common-requirements">
+<h3>Common Requirements<a class="headerlink" href="#common-requirements" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> or Docker Engine.</p></li>
+<li><p>Git.</p></li>
+<li><p>Bash shell.</p></li>
+</ul>
+</section>
+<section id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Python 3.</p></li>
+<li><p>Permission to run Docker.</p></li>
+<li><p>Superuser privileges may be required during Docker installation or when the
+current user is not part of the <code class="docutils literal notranslate"><span class="pre">docker</span></code> group.</p></li>
+</ul>
+</section>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://docs.docker.com/desktop/windows/install/">Docker Desktop for Windows</a>.</p></li>
+<li><p><a class="reference external" href="https://gitforwindows.org/">Git Bash</a>.</p></li>
+<li><p>Docker Desktop with WSL2 or Hyper-V backend enabled.</p></li>
+<li><p>MinGW64, included with Git Bash, for the <code class="docutils literal notranslate"><span class="pre">make</span></code> command.</p></li>
+</ul>
+</section>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>Clone the SDK repository:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/UNIT-Electronics-MX/unit_ch55x_sdk.git
+<span class="nb">cd</span><span class="w"> </span>unit_ch55x_sdk
+</pre></div>
+</div>
+<p>On Linux, make the launcher executable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>+x<span class="w"> </span>spkg/spkg
+</pre></div>
+</div>
+<p>Optional global installation on Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>spkg
+sudo<span class="w"> </span>ln<span class="w"> </span>-s<span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">/spkg&quot;</span><span class="w"> </span>/usr/local/bin/spkg
+</pre></div>
+</div>
+<p>On Windows, run the launcher from Git Bash:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>--help
+</pre></div>
+</div>
+</section>
+<section id="build-the-docker-image">
+<h2>Build the Docker Image<a class="headerlink" href="#build-the-docker-image" title="Link to this heading">#</a></h2>
+<p>Start Docker Desktop or the Docker daemon before running the SDK commands.</p>
 <div class="sphinx-tabs docutils container">
-<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">1.1 Option A – Using the docker.io Package</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">1.2 Option B – Installing the Latest Official Version</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><p>Update the package index and install docker.io:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>compose
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">spkg</span></code> was installed globally:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>compose
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>compose
+</pre></div>
+</div>
+<p>Verify that Docker is running with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>ps
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="compile-a-project">
+<h2>Compile a Project<a class="headerlink" href="#compile-a-project" title="Link to this heading">#</a></h2>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Linux</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./examples/Blink
+</pre></div>
+</div>
+<p>With global installation:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>spkg<span class="w"> </span>-p<span class="w"> </span>./examples/Blink
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./examples/Blink
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="run-make-targets">
+<h2>Run Make Targets<a class="headerlink" href="#run-make-targets" title="Link to this heading">#</a></h2>
+<p>The command after the project path is forwarded to <code class="docutils literal notranslate"><span class="pre">make</span></code> inside the
+container. Common targets are <code class="docutils literal notranslate"><span class="pre">clean</span></code>, <code class="docutils literal notranslate"><span class="pre">all</span></code>, and <code class="docutils literal notranslate"><span class="pre">hex</span></code>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-2-2-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-2-2-0" name="2-0" role="tab" tabindex="0">Linux</button><button aria-controls="panel-2-2-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-2-2-1" name="2-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-2-2-0" class="sphinx-tabs-panel" id="panel-2-2-0" name="2-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./examples/Blink<span class="w"> </span>clean
+./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./examples/Blink<span class="w"> </span>all
+./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./examples/Blink<span class="w"> </span>hex
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-2-2-1" class="sphinx-tabs-panel" hidden="true" id="panel-2-2-1" name="2-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./examples/Blink<span class="w"> </span>clean
+./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./examples/Blink<span class="w"> </span>all
+./spkg/spkg.bat<span class="w"> </span>-p<span class="w"> </span>./examples/Blink<span class="w"> </span>hex
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="create-a-new-project">
+<h2>Create a New Project<a class="headerlink" href="#create-a-new-project" title="Link to this heading">#</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">init</span></code> command creates a new project directory.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-3-3-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-3-3-0" name="3-0" role="tab" tabindex="0">Linux</button><button aria-controls="panel-3-3-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-3-3-1" name="3-1" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-3-3-0" class="sphinx-tabs-panel" id="panel-3-3-0" name="3-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>init<span class="w"> </span>examples/project
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-3-3-1" class="sphinx-tabs-panel" hidden="true" id="panel-3-3-1" name="3-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg.bat<span class="w"> </span>init<span class="w"> </span>examples/project
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="output">
+<h2>Output<a class="headerlink" href="#output" title="Link to this heading">#</a></h2>
+<p>For Makefile-based projects, the compiled binary is generated at:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>examples/Blink/build/main.bin
+</pre></div>
+</div>
+<p>Other generated files, such as HEX output, are written under the same project
+<code class="docutils literal notranslate"><span class="pre">build/</span></code> directory according to the project Makefile.</p>
+</section>
+<section id="flash-tools">
+<h2>Flash Tools<a class="headerlink" href="#flash-tools" title="Link to this heading">#</a></h2>
+<p>Generated firmware can be flashed with one of the supported CH55x tools:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">tools/chprog.py</span></code>.</p></li>
+<li><p><a class="reference external" href="https://github.com/DeqingSun/ch554tools">wchusbdfu</a>.</p></li>
+<li><p><a class="reference external" href="https://www.wch-ic.com/downloads/WCHISPTool_Setup_exe.html">WCHISPTool</a>.</p></li>
+</ul>
+</section>
+<section id="configure-docker-without-sudo-on-linux">
+<h2>Configure Docker Without sudo on Linux<a class="headerlink" href="#configure-docker-without-sudo-on-linux" title="Link to this heading">#</a></h2>
+<p>Docker commands may require <code class="docutils literal notranslate"><span class="pre">sudo</span></code> until the current user is added to the
+<code class="docutils literal notranslate"><span class="pre">docker</span></code> group.</p>
+<section id="install-docker-engine">
+<h3>Install Docker Engine<a class="headerlink" href="#install-docker-engine" title="Link to this heading">#</a></h3>
+<p>Select one installation method.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-4-4-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-4-4-0" name="4-0" role="tab" tabindex="0">docker.io package</button><button aria-controls="panel-4-4-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-4-4-1" name="4-1" role="tab" tabindex="-1">Official Docker packages</button></div><div aria-labelledby="tab-4-4-0" class="sphinx-tabs-panel" id="panel-4-4-0" name="4-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>docker.io
 </pre></div>
 </div>
-</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><p>The following steps remove any old installations and install the latest Docker components.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>remove<span class="w"> </span>docker<span class="w"> </span>docker-engine<span class="w"> </span>docker.io<span class="w"> </span>containerd<span class="w"> </span>runc
-
+</div><div aria-labelledby="tab-4-4-1" class="sphinx-tabs-panel" hidden="true" id="panel-4-4-1" name="4-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>remove<span class="w"> </span>docker<span class="w"> </span>docker-engine<span class="w"> </span>docker.io<span class="w"> </span>containerd<span class="w"> </span>runc
 sudo<span class="w"> </span>apt<span class="w"> </span>update
-sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>ca-certificates<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>curl<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>gnupg
-
+sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>ca-certificates<span class="w"> </span>curl<span class="w"> </span>gnupg
 sudo<span class="w"> </span>install<span class="w"> </span>-m<span class="w"> </span><span class="m">0755</span><span class="w"> </span>-d<span class="w"> </span>/etc/apt/keyrings
-
-curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
-
-<span class="nb">echo</span><span class="w"> </span><span class="se">\</span>
-<span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] \</span>
-<span class="s2">https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="se">\</span>
-sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
-
+curl<span class="w"> </span>-fsSL<span class="w"> </span>https://download.docker.com/linux/ubuntu/gpg<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>gpg<span class="w"> </span>--dearmor<span class="w"> </span>-o<span class="w"> </span>/etc/apt/keyrings/docker.gpg
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;deb [arch=</span><span class="k">$(</span>dpkg<span class="w"> </span>--print-architecture<span class="k">)</span><span class="s2"> signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu </span><span class="k">$(</span>lsb_release<span class="w"> </span>-cs<span class="k">)</span><span class="s2"> stable&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>tee<span class="w"> </span>/etc/apt/sources.list.d/docker.list<span class="w"> </span>&gt;<span class="w"> </span>/dev/null
 sudo<span class="w"> </span>apt<span class="w"> </span>update
 sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>docker-ce<span class="w"> </span>docker-ce-cli<span class="w"> </span>containerd.io<span class="w"> </span>docker-compose-plugin
 </pre></div>
@@ -456,73 +604,72 @@ sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> <
 </div></div>
 </section>
 <section id="verify-docker-operation">
-<h2>2. Verify Docker Operation<a class="headerlink" href="#verify-docker-operation" title="Link to this heading">#</a></h2>
-<p>Ensure the Docker daemon is active and verify the installation:</p>
+<h3>Verify Docker Operation<a class="headerlink" href="#verify-docker-operation" title="Link to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>docker
 sudo<span class="w"> </span>systemctl<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>docker
 docker<span class="w"> </span>version
 </pre></div>
 </div>
 </section>
-<section id="configure-user-access-to-docker">
-<h2>3. Configure User Access to Docker<a class="headerlink" href="#configure-user-access-to-docker" title="Link to this heading">#</a></h2>
-<p>Add your user account to the docker group to allow Docker execution without root privileges:</p>
+<section id="add-the-user-to-the-docker-group">
+<h3>Add the User to the docker Group<a class="headerlink" href="#add-the-user-to-the-docker-group" title="Link to this heading">#</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>usermod<span class="w"> </span>-aG<span class="w"> </span>docker<span class="w"> </span><span class="nv">$USER</span>
+newgrp<span class="w"> </span>docker
 </pre></div>
 </div>
-<p>After executing this command, re-authenticate by logging out and back in or by running:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>newgrp<span class="w"> </span>docker
-</pre></div>
-</div>
+<p>Log out and back in if the group change is not applied in the current shell.</p>
 </section>
 <section id="validate-non-privileged-docker-usage">
-<h2>4. Validate Non-Privileged Docker Usage<a class="headerlink" href="#validate-non-privileged-docker-usage" title="Link to this heading">#</a></h2>
-<p>Confirm that Docker commands work without using sudo:</p>
+<h3>Validate Non-Privileged Docker Usage<a class="headerlink" href="#validate-non-privileged-docker-usage" title="Link to this heading">#</a></h3>
+<p>Run Docker without <code class="docutils literal notranslate"><span class="pre">sudo</span></code>:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>ps
 </pre></div>
 </div>
-<p>The command should return either an empty list or the column headers.</p>
+<p>The command should return either an empty container list or the column headers.</p>
 </section>
-<section id="verify-docker-compose-plugin-installation">
-<h2>5. Verify Docker-Compose Plugin Installation<a class="headerlink" href="#verify-docker-compose-plugin-installation" title="Link to this heading">#</a></h2>
-<p>Check the installation of docker-compose, whether using the legacy version or the modern plugin:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>version<span class="w">     </span><span class="c1"># For the classic (v1) version</span>
-<span class="c1"># or</span>
-docker<span class="w"> </span>compose<span class="w"> </span>version<span class="w">     </span><span class="c1"># For the modern (v2) plugin</span>
+<section id="verify-docker-compose">
+<h3>Verify Docker Compose<a class="headerlink" href="#verify-docker-compose" title="Link to this heading">#</a></h3>
+<p>Check the modern Docker Compose plugin first:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>compose<span class="w"> </span>version
 </pre></div>
 </div>
-<p>If docker-compose is not available, install the required package:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>docker-compose
+<p>Some systems also provide the classic command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker-compose<span class="w"> </span>version
 </pre></div>
 </div>
-<p>Or for the modern plugin:</p>
+<p>If Docker Compose is missing, install the package for your distribution. On
+Ubuntu-based systems:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>docker-compose-plugin
 </pre></div>
 </div>
 </section>
-<section id="running-spkg-without-sudo">
-<h2>6. Running spkg Without sudo<a class="headerlink" href="#running-spkg-without-sudo" title="Link to this heading">#</a></h2>
-<p>Once the configuration is complete, you may build images and compile projects with the spkg tool without requiring sudo privileges.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./spkg/spkg<span class="w"> </span>compose<span class="w">        </span><span class="c1"># To build the Docker image</span>
-./spkg/spkg<span class="w"> </span>-p<span class="w"> </span>./my_project<span class="w"> </span>bin<span class="w">    </span><span class="c1"># To compile your project</span>
-</pre></div>
-</div>
-</section>
-<section id="optional-verify-docker-socket-permissions">
-<h2>Optional: Verify Docker Socket Permissions<a class="headerlink" href="#optional-verify-docker-socket-permissions" title="Link to this heading">#</a></h2>
-<p>Ensure that the Docker socket is correctly configured with the proper group ownership and permissions:</p>
+<section id="optional-socket-permission-check">
+<h3>Optional Socket Permission Check<a class="headerlink" href="#optional-socket-permission-check" title="Link to this heading">#</a></h3>
+<p>Inspect the Docker socket:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-l<span class="w"> </span>/var/run/docker.sock
 </pre></div>
 </div>
-<p>The expected output should resemble:</p>
+<p>Expected group ownership:</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>srw-rw---- 1 root docker ...
 </pre></div>
 </div>
-<p>If the permissions are not as specified, adjust them with:</p>
+<p>If the group or permissions are wrong:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>chown<span class="w"> </span>root:docker<span class="w"> </span>/var/run/docker.sock
 sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">660</span><span class="w"> </span>/var/run/docker.sock
 </pre></div>
 </div>
+</section>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>If <code class="docutils literal notranslate"><span class="pre">spkg</span> <span class="pre">compose</span></code> fails, confirm Docker is running with <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span></code>.</p></li>
+<li><p>If Linux requires <code class="docutils literal notranslate"><span class="pre">sudo</span></code> for every Docker command, re-check the <code class="docutils literal notranslate"><span class="pre">docker</span></code>
+group membership and start a new login session.</p></li>
+<li><p>If Windows cannot run <code class="docutils literal notranslate"><span class="pre">spkg</span></code>, use Git Bash and call <code class="docutils literal notranslate"><span class="pre">./spkg/spkg.bat</span></code>.</p></li>
+<li><p>If a build cannot find a Makefile target, verify that the path passed with
+<code class="docutils literal notranslate"><span class="pre">-p</span></code> points to the project directory that contains the Makefile.</p></li>
+</ul>
 </section>
 </section>
 
@@ -538,12 +685,12 @@ sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">660</sp
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="1_1_0_sdk.html"
+       href="1_1_1_platformio.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">CH55x Unit SDK Docker</p>
+        <p class="prev-next-title">PlatformIO Support for CH55x</p>
       </div>
     </a>
     <a class="right-next"
@@ -571,13 +718,29 @@ sudo<span class="w"> </span>chmod<span class="w"> </span><span class="m">660</sp
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-docker-engine">1. Install Docker Engine</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-operation">2. Verify Docker Operation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-user-access-to-docker">3. Configure User Access to Docker</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-non-privileged-docker-usage">4. Validate Non-Privileged Docker Usage</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-compose-plugin-installation">5. Verify Docker-Compose Plugin Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-spkg-without-sudo">6. Running spkg Without sudo</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-verify-docker-socket-permissions">Optional: Verify Docker Socket Permissions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#common-requirements">Common Requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linux">Linux</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#build-the-docker-image">Build the Docker Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-a-project">Compile a Project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-make-targets">Run Make Targets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-new-project">Create a New Project</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#output">Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flash-tools">Flash Tools</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-docker-without-sudo-on-linux">Configure Docker Without sudo on Linux</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-docker-engine">Install Docker Engine</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-operation">Verify Docker Operation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-the-user-to-the-docker-group">Add the User to the docker Group</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#validate-non-privileged-docker-usage">Validate Non-Privileged Docker Usage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#verify-docker-compose">Verify Docker Compose</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-socket-permission-check">Optional Socket Permission Check</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
   </nav></div>
 

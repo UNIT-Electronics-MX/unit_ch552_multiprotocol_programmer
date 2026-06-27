@@ -13,8 +13,10 @@ Firmware update
     **Proceed with caution and discretion.**
 
 .. note ::
-    The contents of this chapter are hosted in the unit_ch55x_docker_sdk.git repository. 
-    Always remember to keep Docker Desktop open in your computer; otherwise, the commands will not work properly.
+    The recommended implementation workflow is PlatformIO. Use
+    :doc:`1_1_1_platformio` for installation, build, and upload guidance.
+    Legacy Makefile/container builds are documented only in
+    :doc:`1_1_2_docker`.
 
 
 To start using your **Multi-Protocol Programmer** as a CPLD/FPGA programmer, follow these steps:
@@ -41,23 +43,9 @@ Only change the **zeros** for **ones**
             <p> New configuration</p>
         </div>
 
-Once you've changed this data, run the following command in your terminal:
-
-Linux
------
-
-.. code-block:: bash
-
-   ./spkg/spkg -p ./examples/USB/Prog/CPLD
-
-Windows
--------
-
-.. code-block:: bash
-
-   ./spkg/spkg.bat -p ./examples/USB/Prog/CPLD
-
-The command creates a .bin file inside the **build** folder.
+Once you have changed this data, build the firmware with the SDK workflow that
+matches your project. PlatformIO is recommended for new projects. Legacy
+Makefile examples create a ``.bin`` file inside the **build** folder.
 Then open **WCHIspStudio** to upload the firmware
 
 .. raw:: html
@@ -83,7 +71,6 @@ Then open **WCHIspStudio** to upload the firmware
 
 .. note ::
     To program an FPGA and a CPLD, use the JTAG Protocol. For more information, check the pinout.
-
 
 
 
